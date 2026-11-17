@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="सरकारी और प्राइवेट नौकरी की जानकारी खोजें।">
+<title>Bihar Job Alert – सरकारी और प्राइवेट नौकरी</title>
+<style>
+:root{--blue:#174ea6;--navy:#102b52;--orange:#ff9f1c;--bg:#f4f7fb;--ink:#172338;--muted:#64748b}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,"Noto Sans Devanagari",sans-serif;background:var(--bg);color:var(--ink)}
+header{background:linear-gradient(120deg,var(--navy),var(--blue));color:#fff;padding:22px 5%;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
+.brand{font-size:25px;font-weight:800}.brand span{color:#ffd18a}.tagline{font-size:13px;color:#dce8ff;margin-top:5px}
+nav a{color:white;text-decoration:none;margin-left:18px;font-size:14px}
+.hero{padding:48px 5% 38px;background:linear-gradient(120deg,#e7f0ff,#fff);text-align:center}
+.hero h1{font-size:clamp(27px,5vw,42px);margin:0 0 12px;color:var(--navy)}
+.hero p{color:var(--muted);margin:0 0 24px}
+.search{max-width:760px;margin:auto;display:flex;background:#fff;padding:7px;border-radius:12px;box-shadow:0 8px 24px #17345b18;gap:7px}
+.search input{flex:1;min-width:0;border:0;padding:13px;font-size:15px;outline:none}
+button,.btn{border:0;background:var(--blue);color:white;padding:12px 18px;border-radius:8px;cursor:pointer;font-weight:700;text-decoration:none;display:inline-block}
+button:hover,.btn:hover{filter:brightness(1.1)}
+.wrap{max-width:1100px;margin:30px auto;padding:0 18px}
+.filters{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:20px}
+.filters button{background:#e4ebf7;color:var(--navy)}.filters button.active{background:var(--blue);color:#fff}
+.section-title{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:18px 0}
+.section-title h2{margin:0;color:var(--navy);font-size:23px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.card{background:white;border:1px solid #e5eaf2;border-radius:13px;padding:19px;box-shadow:0 4px 15px #102b5209}
+.card h3{margin:0 0 8px;font-size:18px}.company{color:var(--muted);font-size:14px;margin-bottom:13px}
+.meta{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}
+.pill{background:#edf3ff;color:#244b86;padding:5px 9px;border-radius:20px;font-size:12px}
+.card p{font-size:13px;color:var(--muted);line-height:1.5}
+.card .btn{font-size:13px;padding:9px 13px;margin-top:5px}
+.notice{background:#fff8e8;border:1px solid #ffe0a3;padding:15px;border-radius:10px;color:#725019;font-size:13px;line-height:1.5;margin:24px 0}
+.admin{background:white;border:1px solid #e5eaf2;border-radius:13px;padding:20px;margin:30px 0}
+.admin h2{margin-top:0;color:var(--navy)}.formgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:11px}
+input,select,textarea{font:inherit;padding:11px;border:1px solid #ccd6e4;border-radius:8px;width:100%;background:white}
+.admin textarea{min-height:75px;grid-column:1/-1}
+footer{text-align:center;padding:25px;background:#102b52;color:#dce8ff;font-size:13px;margin-top:40px}
+.empty{background:#fff;padding:25px;border-radius:10px;text-align:center;color:var(--muted)}
+@media(max-width:600px){header{align-items:flex-start}nav{width:100%}nav a{margin:0 12px 0 0}.search{flex-direction:column}.search button{width:100%}}
+</style>
+</head>
+<body>
+<header>
+ <div><div class="brand">Bihar<span>Job</span>Alert</div><div class="tagline">नौकरी की जानकारी, एक ही जगह</div></div>
+ <nav><a href="#jobs">Latest Jobs</a><a href="#about">About</a><a href="#admin">Admin</a></nav>
+</header>
+<section class="hero">
+ <h1>अपनी अगली नौकरी खोजें</h1>
+ <p>सरकारी और प्राइवेट नौकरी की जानकारी आसानी से देखें</p>
+ <div class="search"><input id="search" placeholder="जैसे: रेलवे, शिक्षक, कंप्यूटर ऑपरेटर..." aria-label="नौकरी खोजें"><button onclick="renderJobs()">नौकरी खोजें</button></div>
+</section>
+<main class="wrap" id="jobs">
+ <div class="section-title"><h2>Latest Job Updates</h2><span id="count" class="pill">0 Jobs</span></div>
+ <div class="filters">
+  <button class="active" data-filter="All" onclick="setFilter('All',this)">सभी नौकरी</button>
+  <button data-filter="Government" onclick="setFilter('Government',this)">सरकारी नौकरी</button>
+  <button data-filter="Private" onclick="setFilter('Private',this)">प्राइवेट नौकरी</button>
+  <button data-filter="Bihar" onclick="setFilter('Bihar',this)">बिहार</button>
+ </div>
+ <div class="grid" id="jobList"></div>
+ <div class="notice"><b>महत्वपूर्ण सूचना:</b> यह एक शुरुआती डेमो वेबसाइट है। नीचे दिखाई गई नमूना भर्तियाँ केवल डिजाइन दिखाने के लिए हैं, वास्तविक नौकरी की सूचना नहीं। आवेदन करने से पहले संबंधित विभाग/कंपनी की आधिकारिक वेबसाइट पर नोटिफिकेशन, तारीख और पात्रता जरूर जाँचें।</div>
+ <section class="admin" id="admin">
+  <h2>Admin – नई नौकरी जोड़ें</h2>
+  <p style="color:#64748b;font-size:13px">यह फॉर्म इस ब्राउज़र में नौकरी जोड़ता है। सार्वजनिक वेबसाइट पर सभी लोगों को अपडेट दिखाने के लिए बाद में डेटाबेस/फॉर्म सेवा जोड़नी होगी।</p>
+  <div class="formgrid">
+   <input id="title" placeholder="पद का नाम *">
+   <input id="company" placeholder="विभाग / कंपनी *">
+   <select id="category"><option value="Government">सरकारी नौकरी</option><option value="Private">प्राइवेट नौकरी</option></select>
+   <input id="location" placeholder="स्थान (जैसे पटना, बिहार)">
+   <input id="deadline" placeholder="अंतिम तारीख (जैसे 30-12-2026)">
+   <input id="link" placeholder="आधिकारिक आवेदन लिंक (https://...)">
+   <textarea id="details" placeholder="योग्यता / संक्षिप्त जानकारी"></textarea>
+  </div>
+  <button style="margin-top:12px" onclick="addJob()">नौकरी जोड़ें</button>
+  <span id="status" style="font-size:13px;margin-left:10px"></span>
+ </section>
+ <section id="about"><h2>हमारे बारे में</h2><p style="color:#64748b;line-height:1.6">Bihar Job Alert पर सरकारी और प्राइवेट नौकरी की जानकारी व्यवस्थित रूप से देखने के लिए यह पोर्टल बनाया गया है। सभी जानकारी की पुष्टि आधिकारिक स्रोत से करें।</p></section>
+</main>
+<footer>© 2026 Bihar Job Alert · यह एक शुरुआती फ्री वेबसाइट टेम्पलेट है</footer>
+<script>
+const sampleJobs=[
+ {title:"रेलवे भर्ती – नमूना पोस्ट",company:"भारतीय रेलवे (डेमो)",category:"Government",location:"All India",deadline:"आधिकारिक सूचना देखें",details:"यह केवल वेबसाइट का नमूना कार्ड है। वास्तविक भर्ती नहीं।",link:"https://www.rrbapply.gov.in/"},
+ {title:"बिहार सरकारी नौकरी – नमूना पोस्ट",company:"बिहार भर्ती सूचना (डेमो)",category:"Government",location:"बिहार",deadline:"आधिकारिक सूचना देखें",details:"योग्यता और आवेदन तिथि के लिए आधिकारिक नोटिफिकेशन देखें।",link:"https://state.bihar.gov.in/"},
+ {title:"कस्टमर सपोर्ट एग्जीक्यूटिव – डेमो",company:"प्राइवेट कंपनी (डेमो)",category:"Private",location:"पटना / बिहार",deadline:"कंपनी से पुष्टि करें",details:"यह केवल डिजाइन दिखाने के लिए बनाया गया नमूना है।",link:""}
+];
+let jobs=JSON.parse(localStorage.getItem("bja_jobs")||"null")||sampleJobs;
+let filter="All";
+function esc(s){return String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function renderJobs(){
+ const q=document.getElementById("search").value.toLowerCase();
+ const list=jobs.filter(j=>(filter==="All"||(filter==="Bihar"?String(j.location).toLowerCase().includes("bihar")||String(j.location).toLowerCase().includes("पटना"):j.category===filter)) && [j.title,j.company,j.location,j.details].join(" ").toLowerCase().includes(q));
+ document.getElementById("count").textContent=list.length+" Jobs";
+ document.getElementById("jobList").innerHTML=list.length?list.map(j=>`<article class="card"><h3>${esc(j.title)}</h3><div class="company">${esc(j.company)}</div><div class="meta"><span class="pill">${j.category==="Government"?"सरकारी":"प्राइवेट"}</span><span class="pill">${esc(j.location)}</span></div><p>${esc(j.details)}</p><p><b>अंतिम तारीख:</b> ${esc(j.deadline)}</p>${j.link&&/^https:\\/\\//i.test(j.link)?`<a class="btn" href="${esc(j.link)}" target="_blank" rel="noopener">आधिकारिक वेबसाइट देखें</a>`:"<span class='pill'>लिंक उपलब्ध नहीं</span>"}</article>`).join(""):'<div class="empty">कोई नौकरी नहीं मिली। दूसरा शब्द खोजें।</div>';
+}
+function setFilter(f,el){filter=f;document.querySelectorAll(".filters button").forEach(b=>b.classList.remove("active"));el.classList.add("active");renderJobs();}
+function addJob(){
+ const title=document.getElementById("title").value.trim(),company=document.getElementById("company").value.trim(),link=document.getElementById("link").value.trim();
+ if(!title||!company){document.getElementById("status").textContent="पद और विभाग/कंपनी भरें।";return;}
+ if(link&&!/^https:\\/\\//i.test(link)){document.getElementById("status").textContent="लिंक https:// से शुरू होना चाहिए।";return;}
+ jobs.unshift({title,company,category:document.getElementById("category").value,location:document.getElementById("location").value||"भारत",deadline:document.getElementById("deadline").value||"जाँचें",details:document.getElementById("details").value,link});
+ localStorage.setItem("bja_jobs",JSON.stringify(jobs));renderJobs();document.getElementById("status").textContent="नौकरी इस ब्राउज़र में जुड़ गई।";
+ ["title","company","location","deadline","link","details"].forEach(id=>document.getElementById(id).value="");
+}
+document.getElementById("search").addEventListener("keydown",e=>{if(e.key==="Enter")renderJobs()});
+renderJobs();
+</script>
+</body>
+</html>
